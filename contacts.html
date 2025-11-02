@@ -122,6 +122,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -130,6 +133,43 @@
             background: var(--text-primary);
             margin: 3px 0;
             transition: 0.3s;
+            display: block;
+        }
+
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1.5rem;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            .contacts-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
         }
 
         .contacts-hero {
@@ -276,31 +316,6 @@
             text-align: center;
             padding: 2rem 0;
         }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                padding: 1rem;
-                box-shadow: var(--shadow);
-            }
-            .nav-toggle {
-                display: flex;
-            }
-            .language-switcher {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
-            .contacts-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -320,11 +335,11 @@
                     <button class="lang-btn" data-lang="fr">FR</button>
                 </div>
             </div>
-            <div class="nav-toggle">
+            <button class="nav-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -422,4 +437,254 @@
                 // Footer
                 'footer.copyright': '© 2024 DannyWeb. All rights reserved.'
             },
-            ru
+            ru: {
+                // Navigation
+                'nav.home': 'Главная',
+                'nav.portfolio': 'Портфолио',
+                'nav.services': 'Услуги',
+                'nav.contacts': 'Контакты',
+                
+                // Contacts section
+                'contacts.title': 'Свяжитесь со мной',
+                'contacts.subtitle': 'Давайте обсудим ваш проект',
+                'contacts.info.title': 'Контактная информация',
+                'contacts.info.email': 'Email',
+                'contacts.info.telegram': 'Телеграм',
+                'contacts.info.linkedin': 'LinkedIn',
+                'contacts.form.title': 'Отправить сообщение',
+                'contacts.form.name': 'Имя',
+                'contacts.form.email': 'Email',
+                'contacts.form.message': 'Сообщение',
+                'contacts.form.button': 'Отправить сообщение',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Все права защищены.'
+            },
+            fr: {
+                // Navigation
+                'nav.home': 'Accueil',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Contacts section
+                'contacts.title': 'Contactez-moi',
+                'contacts.subtitle': 'Discutons de votre projet',
+                'contacts.info.title': 'Informations de contact',
+                'contacts.info.email': 'Email',
+                'contacts.info.telegram': 'Télégramme',
+                'contacts.info.linkedin': 'LinkedIn',
+                'contacts.form.title': 'Envoyer un message',
+                'contacts.form.name': 'Nom',
+                'contacts.form.email': 'Email',
+                'contacts.form.message': 'Message',
+                'contacts.form.button': 'Envoyer le message',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Tous droits réservés.'
+            }
+        };
+
+        // Improved Language Manager with better mobile menu
+        class LanguageManager {
+            constructor() {
+                this.currentLang = this.detectLanguage();
+                this.init();
+            }
+
+            detectLanguage() {
+                // First check localStorage for user preference
+                const savedLang = localStorage.getItem('preferred-language');
+                if (savedLang) return savedLang;
+                
+                // Then check browser language
+                const browserLang = navigator.language || navigator.userLanguage;
+                const shortLang = browserLang.split('-')[0];
+                
+                // Support for Russian and French
+                if (shortLang === 'ru' || shortLang === 'fr') {
+                    return shortLang;
+                }
+                
+                // Default to English
+                return 'en';
+            }
+
+            init() {
+                this.loadLanguage(this.currentLang);
+                this.setupEventListeners();
+                this.setupMobileMenu();
+                this.setupAnimations();
+            }
+
+            loadLanguage(lang) {
+                this.currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                // Update all translatable elements
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                // Update active language button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                // Save preference
+                localStorage.setItem('preferred-language', lang);
+            }
+
+            setupEventListeners() {
+                // Language switcher
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.loadLanguage(btn.dataset.lang);
+                        this.closeMobileMenu();
+                    });
+                });
+
+                // Navbar scroll effect
+                window.addEventListener('scroll', () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 100) {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                        navbar.style.boxShadow = 'none';
+                    }
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    const navMenu = document.querySelector('.nav-menu');
+                    const navToggle = document.querySelector('.nav-toggle');
+                    
+                    if (window.innerWidth <= 768 && 
+                        navMenu.classList.contains('active') &&
+                        !navMenu.contains(e.target) && 
+                        !navToggle.contains(e.target)) {
+                        this.closeMobileMenu();
+                    }
+                });
+
+                // Contact form handling
+                const contactForm = document.getElementById('contactForm');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        
+                        const formData = {
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                            message: document.getElementById('message').value
+                        };
+
+                        // Success message in current language
+                        const successMessages = {
+                            en: 'Message sent! I will contact you shortly.',
+                            ru: 'Сообщение отправлено! Я свяжусь с вами в ближайшее время.',
+                            fr: 'Message envoyé ! Je vous contacterai sous peu.'
+                        };
+
+                        alert(successMessages[this.currentLang]);
+                        contactForm.reset();
+                    });
+                }
+            }
+
+            setupMobileMenu() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle && navMenu) {
+                    navToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        navMenu.classList.toggle('active');
+                        
+                        // Animate hamburger icon
+                        const spans = navToggle.querySelectorAll('span');
+                        if (navMenu.classList.contains('active')) {
+                            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                            spans[1].style.opacity = '0';
+                            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                        } else {
+                            spans[0].style.transform = 'none';
+                            spans[1].style.opacity = '1';
+                            spans[2].style.transform = 'none';
+                        }
+                    });
+
+                    // Close menu when clicking on links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            this.closeMobileMenu();
+                        });
+                    });
+                }
+
+                // Close menu on window resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        this.closeMobileMenu();
+                    }
+                });
+            }
+
+            closeMobileMenu() {
+                const navMenu = document.querySelector('.nav-menu');
+                const navToggle = document.querySelector('.nav-toggle');
+                const spans = navToggle?.querySelectorAll('span');
+                
+                if (navMenu) {
+                    navMenu.classList.remove('active');
+                }
+                
+                if (spans) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            }
+
+            setupAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                // Animate contact items
+                document.querySelectorAll('.contact-item').forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateX(-20px)';
+                    el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                    observer.observe(el);
+                });
+
+                // Animate contact form
+                const contactForm = document.querySelector('.contact-form');
+                if (contactForm) {
+                    contactForm.style.opacity = '0';
+                    contactForm.style.transform = 'translateX(20px)';
+                    contactForm.style.transition = 'opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s';
+                    observer.observe(contactForm);
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new LanguageManager();
+        });
+    </script>
+</body>
+</html>
