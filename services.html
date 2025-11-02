@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Услуги - DannyWeb</title>
+    <title>Services - DannyWeb</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -69,6 +69,7 @@
         .nav-menu {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         .nav-link {
@@ -92,6 +93,29 @@
             width: 100%;
             height: 2px;
             background: var(--primary-color);
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 2rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
         .nav-toggle {
@@ -255,9 +279,21 @@
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: var(--shadow);
             }
             .nav-toggle {
                 display: flex;
+            }
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
             }
             .services-grid {
                 grid-template-columns: 1fr;
@@ -272,10 +308,15 @@
                 <a href="index.html">DannyWeb</a>
             </div>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link">Главная</a>
-                <a href="portfolio.html" class="nav-link">Портфолио</a>
-                <a href="services.html" class="nav-link active">Услуги</a>
-                <a href="contacts.html" class="nav-link">Контакты</a>
+                <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="portfolio.html" class="nav-link" data-i18n="nav.portfolio">Portfolio</a>
+                <a href="services.html" class="nav-link active" data-i18n="nav.services">Services</a>
+                <a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Contacts</a>
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
             </div>
             <div class="nav-toggle">
                 <span></span>
@@ -288,8 +329,8 @@
     <main>
         <section class="services-hero">
             <div class="container">
-                <h1 class="section-title">Услуги</h1>
-                <p class="section-subtitle">Что я могу сделать для вашего бизнеса</p>
+                <h1 class="section-title" data-i18n="services.title">Services</h1>
+                <p class="section-subtitle" data-i18n="services.subtitle">What I can do for your business</p>
             </div>
         </section>
 
@@ -298,38 +339,38 @@
                 <div class="services-grid">
                     <div class="service-card">
                         <div class="service-icon">🎨</div>
-                        <h3>Веб-дизайн</h3>
+                        <h3 data-i18n="services.design.title">Web Design</h3>
                         <ul class="service-features">
-                            <li>UI/UX дизайн</li>
-                            <li>Прототипирование</li>
-                            <li>Адаптивный дизайн</li>
-                            <li>Дизайн-системы</li>
+                            <li data-i18n="services.design.feature1">UI/UX Design</li>
+                            <li data-i18n="services.design.feature2">Prototyping</li>
+                            <li data-i18n="services.design.feature3">Responsive Design</li>
+                            <li data-i18n="services.design.feature4">Design Systems</li>
                         </ul>
-                        <div class="service-price">от 25 000 ₽</div>
+                        <div class="service-price" data-i18n="services.design.price">from $300</div>
                     </div>
 
                     <div class="service-card">
                         <div class="service-icon">💻</div>
-                        <h3>Frontend разработка</h3>
+                        <h3 data-i18n="services.frontend.title">Frontend Development</h3>
                         <ul class="service-features">
-                            <li>Верстка по макетам</li>
-                            <li>React/Vue разработка</li>
-                            <li>Анимации</li>
-                            <li>PWA</li>
+                            <li data-i18n="services.frontend.feature1">Layout from mockups</li>
+                            <li data-i18n="services.frontend.feature2">React/Vue development</li>
+                            <li data-i18n="services.frontend.feature3">Animations</li>
+                            <li data-i18n="services.frontend.feature4">PWA</li>
                         </ul>
-                        <div class="service-price">от 40 000 ₽</div>
+                        <div class="service-price" data-i18n="services.frontend.price">from $500</div>
                     </div>
 
                     <div class="service-card">
                         <div class="service-icon">⚙️</div>
-                        <h3>Fullstack разработка</h3>
+                        <h3 data-i18n="services.fullstack.title">Fullstack Development</h3>
                         <ul class="service-features">
-                            <li>Полный цикл разработки</li>
-                            <li>Базы данных</li>
-                            <li>API интеграции</li>
-                            <li>Деплой и хостинг</li>
+                            <li data-i18n="services.fullstack.feature1">Full development cycle</li>
+                            <li data-i18n="services.fullstack.feature2">Databases</li>
+                            <li data-i18n="services.fullstack.feature3">API integrations</li>
+                            <li data-i18n="services.fullstack.feature4">Deployment & hosting</li>
                         </ul>
-                        <div class="service-price">от 70 000 ₽</div>
+                        <div class="service-price" data-i18n="services.fullstack.price">from $900</div>
                     </div>
                 </div>
             </div>
@@ -337,57 +378,234 @@
 
         <section class="cta-section">
             <div class="container">
-                <h2>Готовы начать проект?</h2>
-                <p>Обсудим ваши идеи и найдем лучшее решение</p>
-                <a href="contacts.html" class="btn btn-primary">Начать сотрудничество</a>
+                <h2 data-i18n="services.cta.title">Ready to start a project?</h2>
+                <p data-i18n="services.cta.subtitle">Let's discuss your ideas and find the best solution</p>
+                <a href="contacts.html" class="btn btn-primary" data-i18n="services.cta.button">Start Cooperation</a>
             </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 DannyWeb. Все права защищены.</p>
+            <p data-i18n="footer.copyright">© 2024 DannyWeb. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navToggle = document.querySelector('.nav-toggle');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            if (navToggle) {
-                navToggle.addEventListener('click', function() {
-                    navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        // Translation dictionary for services page
+        const translations = {
+            en: {
+                // Navigation
+                'nav.home': 'Home',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Services section
+                'services.title': 'Services',
+                'services.subtitle': 'What I can do for your business',
+                'services.design.title': 'Web Design',
+                'services.design.feature1': 'UI/UX Design',
+                'services.design.feature2': 'Prototyping',
+                'services.design.feature3': 'Responsive Design',
+                'services.design.feature4': 'Design Systems',
+                'services.design.price': 'from $300',
+                'services.frontend.title': 'Frontend Development',
+                'services.frontend.feature1': 'Layout from mockups',
+                'services.frontend.feature2': 'React/Vue development',
+                'services.frontend.feature3': 'Animations',
+                'services.frontend.feature4': 'PWA',
+                'services.frontend.price': 'from $500',
+                'services.fullstack.title': 'Fullstack Development',
+                'services.fullstack.feature1': 'Full development cycle',
+                'services.fullstack.feature2': 'Databases',
+                'services.fullstack.feature3': 'API integrations',
+                'services.fullstack.feature4': 'Deployment & hosting',
+                'services.fullstack.price': 'from $900',
+                'services.cta.title': 'Ready to start a project?',
+                'services.cta.subtitle': 'Let\'s discuss your ideas and find the best solution',
+                'services.cta.button': 'Start Cooperation',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. All rights reserved.'
+            },
+            ru: {
+                // Navigation
+                'nav.home': 'Главная',
+                'nav.portfolio': 'Портфолио',
+                'nav.services': 'Услуги',
+                'nav.contacts': 'Контакты',
+                
+                // Services section
+                'services.title': 'Услуги',
+                'services.subtitle': 'Что я могу сделать для вашего бизнеса',
+                'services.design.title': 'Веб-дизайн',
+                'services.design.feature1': 'UI/UX дизайн',
+                'services.design.feature2': 'Прототипирование',
+                'services.design.feature3': 'Адаптивный дизайн',
+                'services.design.feature4': 'Дизайн-системы',
+                'services.design.price': 'от 25 000 ₽',
+                'services.frontend.title': 'Frontend разработка',
+                'services.frontend.feature1': 'Верстка по макетам',
+                'services.frontend.feature2': 'React/Vue разработка',
+                'services.frontend.feature3': 'Анимации',
+                'services.frontend.feature4': 'PWA',
+                'services.frontend.price': 'от 40 000 ₽',
+                'services.fullstack.title': 'Fullstack разработка',
+                'services.fullstack.feature1': 'Полный цикл разработки',
+                'services.fullstack.feature2': 'Базы данных',
+                'services.fullstack.feature3': 'API интеграции',
+                'services.fullstack.feature4': 'Деплой и хостинг',
+                'services.fullstack.price': 'от 70 000 ₽',
+                'services.cta.title': 'Готовы начать проект?',
+                'services.cta.subtitle': 'Обсудим ваши идеи и найдем лучшее решение',
+                'services.cta.button': 'Начать сотрудничество',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Все права защищены.'
+            },
+            fr: {
+                // Navigation
+                'nav.home': 'Accueil',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Services section
+                'services.title': 'Services',
+                'services.subtitle': 'Ce que je peux faire pour votre entreprise',
+                'services.design.title': 'Design Web',
+                'services.design.feature1': 'Design UI/UX',
+                'services.design.feature2': 'Prototypage',
+                'services.design.feature3': 'Design Responsive',
+                'services.design.feature4': 'Systèmes de design',
+                'services.design.price': 'à partir de 300€',
+                'services.frontend.title': 'Développement Frontend',
+                'services.frontend.feature1': 'Intégration de maquettes',
+                'services.frontend.feature2': 'Développement React/Vue',
+                'services.frontend.feature3': 'Animations',
+                'services.frontend.feature4': 'PWA',
+                'services.frontend.price': 'à partir de 500€',
+                'services.fullstack.title': 'Développement Fullstack',
+                'services.fullstack.feature1': 'Cycle complet de développement',
+                'services.fullstack.feature2': 'Bases de données',
+                'services.fullstack.feature3': 'Intégrations API',
+                'services.fullstack.feature4': 'Déploiement & hébergement',
+                'services.fullstack.price': 'à partir de 900€',
+                'services.cta.title': 'Prêt à démarrer un projet?',
+                'services.cta.subtitle': 'Discutons de vos idées et trouvons la meilleure solution',
+                'services.cta.button': 'Commencer la coopération',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Tous droits réservés.'
+            }
+        };
+
+        // Language Manager
+        class LanguageManager {
+            constructor() {
+                this.currentLang = this.detectLanguage();
+                this.init();
+            }
+
+            detectLanguage() {
+                const savedLang = localStorage.getItem('preferred-language');
+                if (savedLang) return savedLang;
+                
+                const browserLang = navigator.language || navigator.userLanguage;
+                const shortLang = browserLang.split('-')[0];
+                
+                if (shortLang === 'ru' || shortLang === 'fr') {
+                    return shortLang;
+                }
+                return 'en';
+            }
+
+            init() {
+                this.loadLanguage(this.currentLang);
+                this.setupEventListeners();
+                this.setupMobileMenu();
+                this.setupAnimations();
+            }
+
+            loadLanguage(lang) {
+                this.currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                localStorage.setItem('preferred-language', lang);
+            }
+
+            setupEventListeners() {
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.loadLanguage(btn.dataset.lang);
+                    });
+                });
+
+                window.addEventListener('scroll', () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 100) {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                        navbar.style.boxShadow = 'none';
+                    }
                 });
             }
 
-            // Анимация появления услуг
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.service-card').forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
-                observer.observe(el);
-            });
-
-            window.addEventListener('scroll', function() {
-                const navbar = document.querySelector('.navbar');
-                if (window.scrollY > 100) {
-                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-                } else {
-                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                    navbar.style.boxShadow = 'none';
+            setupMobileMenu() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle && navMenu) {
+                    navToggle.addEventListener('click', () => {
+                        const isVisible = navMenu.style.display === 'flex';
+                        navMenu.style.display = isVisible ? 'none' : 'flex';
+                    });
                 }
-            });
+
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) {
+                            navMenu.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            setupAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.service-card').forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    el.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+                    observer.observe(el);
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new LanguageManager();
         });
     </script>
 </body>
