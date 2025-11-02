@@ -343,11 +343,11 @@
             }
 
             .contact-form {
-                order: 2; /* Move form to bottom on mobile */
+                order: 2;
             }
 
             .contact-info {
-                order: 1; /* Keep contact info on top */
+                order: 1;
             }
 
             .section-title {
@@ -560,7 +560,7 @@
             }
         };
 
-        // Improved Language Manager with proper detection
+        // Advanced Language Detection
         class LanguageManager {
             constructor() {
                 this.currentLang = this.detectLanguage();
@@ -568,71 +568,127 @@
             }
 
             detectLanguage() {
-                // Get browser language
-                const browserLang = navigator.language || navigator.userLanguage || 'en';
-                console.log('Browser language detected:', browserLang);
+                console.log('=== LANGUAGE DETECTION START ===');
                 
-                // Extract primary language code (e.g., 'ru' from 'ru-RU')
-                const primaryLang = browserLang.split('-')[0].toLowerCase();
-                console.log('Primary language:', primaryLang);
-                
-                // Check if it's Russian or French
-                if (primaryLang === 'ru') {
-                    console.log('Setting language: Russian');
-                    return 'ru';
-                } else if (primaryLang === 'fr') {
-                    console.log('Setting language: French');
-                    return 'fr';
+                // Method 1: Check all possible browser language properties
+                const languageProperties = [
+                    navigator.language,
+                    navigator.userLanguage,
+                    navigator.browserLanguage,
+                    navigator.systemLanguage,
+                    navigator.languages ? navigator.languages[0] : null
+                ];
+
+                console.log('All language properties:', languageProperties);
+
+                let detectedLang = 'en'; // Default fallback
+
+                // Check each property for Russian or French
+                for (let lang of languageProperties) {
+                    if (!lang) continue;
+                    
+                    const primaryLang = lang.split('-')[0].toLowerCase();
+                    console.log('Checking language:', lang, '->', primaryLang);
+                    
+                    if (primaryLang === 'ru') {
+                        console.log('✓ Russian detected');
+                        detectedLang = 'ru';
+                        break;
+                    } else if (primaryLang === 'fr') {
+                        console.log('✓ French detected');
+                        detectedLang = 'fr';
+                        break;
+                    }
                 }
+
+                // Method 2: Check Accept-Language header via AJAX (if needed)
+                this.detectViaHeaders().then(headerLang => {
+                    if (headerLang && headerLang !== detectedLang) {
+                        console.log('Header detection found:', headerLang);
+                        // You could use this as fallback
+                    }
+                });
+
+                console.log('Final detected language:', detectedLang);
+                console.log('=== LANGUAGE DETECTION END ===');
                 
-                // Default to English for all other languages
-                console.log('Setting default language: English');
-                return 'en';
+                return detectedLang;
+            }
+
+            // Alternative method using headers (for completeness)
+            async detectViaHeaders() {
+                try {
+                    // This would typically be done server-side
+                    // For client-side, we rely on navigator properties
+                    return null;
+                } catch (error) {
+                    console.log('Header detection failed:', error);
+                    return null;
+                }
             }
 
             init() {
-                console.log('Initializing language manager with:', this.currentLang);
-                this.loadLanguage(this.currentLang);
+                console.log('Initializing with language:', this.currentLang);
+                
+                // Apply language immediately
+                this.applyLanguage(this.currentLang);
+                
                 this.setupEventListeners();
                 this.setupMobileMenu();
                 this.setupAnimations();
+
+                // Force language check on load
+                setTimeout(() => {
+                    console.log('Current page language:', document.documentElement.lang);
+                    console.log('Body text sample:', document.querySelector('body')?.textContent?.substring(0, 100));
+                }, 100);
             }
 
-            loadLanguage(lang) {
+            applyLanguage(lang) {
                 this.currentLang = lang;
                 document.documentElement.lang = lang;
                 
-                console.log('Loading language:', lang);
+                console.log('Applying language:', lang);
                 
                 // Update all translatable elements
+                let updatedCount = 0;
                 document.querySelectorAll('[data-i18n]').forEach(element => {
                     const key = element.getAttribute('data-i18n');
                     if (translations[lang] && translations[lang][key]) {
                         element.textContent = translations[lang][key];
+                        updatedCount++;
                     } else {
-                        console.warn('Translation missing for key:', key, 'in language:', lang);
+                        console.warn('Missing translation:', key, 'for language:', lang);
                     }
                 });
 
+                console.log(`Updated ${updatedCount} elements with ${lang} translations`);
+
                 // Update active language button
                 document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                    const isActive = btn.dataset.lang === lang;
+                    btn.classList.toggle('active', isActive);
+                    console.log(`Button ${btn.dataset.lang} active:`, isActive);
                 });
 
-                // Save preference
+                // Save to localStorage for future visits
                 localStorage.setItem('preferred-language', lang);
                 
-                console.log('Language loaded successfully:', lang);
+                // Force reflow to ensure updates are visible
+                document.body.style.visibility = 'hidden';
+                setTimeout(() => {
+                    document.body.style.visibility = 'visible';
+                }, 10);
             }
 
             setupEventListeners() {
-                // Language switcher
+                // Language switcher buttons
                 document.querySelectorAll('.lang-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
                         const selectedLang = btn.dataset.lang;
-                        console.log('User selected language:', selectedLang);
-                        this.loadLanguage(selectedLang);
+                        console.log('User manually selected language:', selectedLang);
+                        this.applyLanguage(selectedLang);
                         this.closeMobileMenu();
                     });
                 });
@@ -646,19 +702,6 @@
                     } else {
                         navbar.style.background = 'rgba(255, 255, 255, 0.95)';
                         navbar.style.boxShadow = 'none';
-                    }
-                });
-
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    const navMenu = document.querySelector('.nav-menu');
-                    const navToggle = document.querySelector('.nav-toggle');
-                    
-                    if (window.innerWidth <= 768 && 
-                        navMenu.classList.contains('active') &&
-                        !navMenu.contains(e.target) && 
-                        !navToggle.contains(e.target)) {
-                        this.closeMobileMenu();
                     }
                 });
 
@@ -772,15 +815,20 @@
             }
         }
 
-        // Initialize when DOM is loaded
+        // Initialize immediately
+        console.log('Script loading...');
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM loaded, initializing LanguageManager...');
-            new LanguageManager();
+            console.log('DOM fully loaded, initializing LanguageManager...');
+            window.languageManager = new LanguageManager();
         });
 
-        // Fallback initialization
+        // Fallback: Initialize on window load
         window.addEventListener('load', () => {
-            console.log('Window loaded, language should be set by now');
+            console.log('Window fully loaded');
+            if (!window.languageManager) {
+                console.log('Fallback initialization...');
+                window.languageManager = new LanguageManager();
+            }
         });
     </script>
 </body>
