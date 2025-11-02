@@ -31,12 +31,14 @@
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--background);
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         .navbar {
@@ -165,11 +167,6 @@
                 margin-top: 1rem;
                 justify-content: center;
             }
-
-            .contacts-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
         }
 
         .contacts-hero {
@@ -197,6 +194,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
+            width: 100%;
+        }
+
+        .contact-info {
+            width: 100%;
         }
 
         .contact-info h2 {
@@ -215,6 +217,7 @@
             border-radius: 12px;
             box-shadow: var(--shadow);
             transition: transform 0.3s ease;
+            width: 100%;
         }
 
         .contact-item:hover {
@@ -232,6 +235,7 @@
             background: var(--gradient);
             border-radius: 50%;
             color: white;
+            flex-shrink: 0;
         }
 
         .contact-item h3 {
@@ -249,6 +253,7 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: var(--shadow);
+            width: 100%;
         }
 
         .contact-form h2 {
@@ -259,6 +264,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            width: 100%;
         }
 
         .form-group label {
@@ -315,6 +321,75 @@
             color: white;
             text-align: center;
             padding: 2rem 0;
+            width: 100%;
+        }
+
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .contacts-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                width: 100%;
+            }
+
+            .contact-info,
+            .contact-form {
+                width: 100%;
+                margin: 0;
+            }
+
+            .contact-form {
+                order: 2; /* Move form to bottom on mobile */
+            }
+
+            .contact-info {
+                order: 1; /* Keep contact info on top */
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-info h2,
+            .contact-form h2 {
+                font-size: 1.75rem;
+            }
+
+            .contact-item {
+                padding: 1rem;
+            }
+
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contacts-hero {
+                padding: 120px 0 40px;
+            }
+
+            .contacts {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -485,7 +560,7 @@
             }
         };
 
-        // Improved Language Manager with better mobile menu
+        // Improved Language Manager with proper detection
         class LanguageManager {
             constructor() {
                 this.currentLang = this.detectLanguage();
@@ -493,24 +568,30 @@
             }
 
             detectLanguage() {
-                // First check localStorage for user preference
-                const savedLang = localStorage.getItem('preferred-language');
-                if (savedLang) return savedLang;
+                // Get browser language
+                const browserLang = navigator.language || navigator.userLanguage || 'en';
+                console.log('Browser language detected:', browserLang);
                 
-                // Then check browser language
-                const browserLang = navigator.language || navigator.userLanguage;
-                const shortLang = browserLang.split('-')[0];
+                // Extract primary language code (e.g., 'ru' from 'ru-RU')
+                const primaryLang = browserLang.split('-')[0].toLowerCase();
+                console.log('Primary language:', primaryLang);
                 
-                // Support for Russian and French
-                if (shortLang === 'ru' || shortLang === 'fr') {
-                    return shortLang;
+                // Check if it's Russian or French
+                if (primaryLang === 'ru') {
+                    console.log('Setting language: Russian');
+                    return 'ru';
+                } else if (primaryLang === 'fr') {
+                    console.log('Setting language: French');
+                    return 'fr';
                 }
                 
-                // Default to English
+                // Default to English for all other languages
+                console.log('Setting default language: English');
                 return 'en';
             }
 
             init() {
+                console.log('Initializing language manager with:', this.currentLang);
                 this.loadLanguage(this.currentLang);
                 this.setupEventListeners();
                 this.setupMobileMenu();
@@ -521,11 +602,15 @@
                 this.currentLang = lang;
                 document.documentElement.lang = lang;
                 
+                console.log('Loading language:', lang);
+                
                 // Update all translatable elements
                 document.querySelectorAll('[data-i18n]').forEach(element => {
                     const key = element.getAttribute('data-i18n');
                     if (translations[lang] && translations[lang][key]) {
                         element.textContent = translations[lang][key];
+                    } else {
+                        console.warn('Translation missing for key:', key, 'in language:', lang);
                     }
                 });
 
@@ -536,6 +621,8 @@
 
                 // Save preference
                 localStorage.setItem('preferred-language', lang);
+                
+                console.log('Language loaded successfully:', lang);
             }
 
             setupEventListeners() {
@@ -543,7 +630,9 @@
                 document.querySelectorAll('.lang-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        this.loadLanguage(btn.dataset.lang);
+                        const selectedLang = btn.dataset.lang;
+                        console.log('User selected language:', selectedLang);
+                        this.loadLanguage(selectedLang);
                         this.closeMobileMenu();
                     });
                 });
@@ -585,6 +674,8 @@
                             message: document.getElementById('message').value
                         };
 
+                        console.log('Form submitted:', formData);
+
                         // Success message in current language
                         const successMessages = {
                             en: 'Message sent! I will contact you shortly.',
@@ -592,7 +683,7 @@
                             fr: 'Message envoyé ! Je vous contacterai sous peu.'
                         };
 
-                        alert(successMessages[this.currentLang]);
+                        alert(successMessages[this.currentLang] || successMessages.en);
                         contactForm.reset();
                     });
                 }
@@ -683,7 +774,13 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing LanguageManager...');
             new LanguageManager();
+        });
+
+        // Fallback initialization
+        window.addEventListener('load', () => {
+            console.log('Window loaded, language should be set by now');
         });
     </script>
 </body>
