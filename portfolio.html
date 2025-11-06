@@ -31,12 +31,14 @@
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--background);
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         .navbar {
@@ -122,6 +124,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -130,12 +135,45 @@
             background: var(--text-primary);
             margin: 3px 0;
             transition: 0.3s;
+            display: block;
+        }
+
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1.5rem;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
+                justify-content: center;
+            }
         }
 
         .portfolio-hero {
             padding: 140px 0 60px;
             text-align: center;
             background: var(--secondary-color);
+            width: 100%;
         }
 
         .section-title {
@@ -151,12 +189,14 @@
 
         .portfolio {
             padding: 80px 0;
+            width: 100%;
         }
 
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
+            width: 100%;
         }
 
         .portfolio-item {
@@ -165,6 +205,7 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            width: 100%;
         }
 
         .portfolio-item:hover {
@@ -178,6 +219,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
         .image-placeholder {
@@ -187,6 +229,7 @@
 
         .portfolio-content {
             padding: 1.5rem;
+            width: 100%;
         }
 
         .portfolio-content h3 {
@@ -220,29 +263,51 @@
             color: white;
             text-align: center;
             padding: 2rem 0;
+            width: 100%;
         }
 
+        /* Mobile responsive fixes */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                padding: 1rem;
-                box-shadow: var(--shadow);
+            .container {
+                padding: 0 15px;
             }
-            .nav-toggle {
-                display: flex;
-            }
-            .language-switcher {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
+
             .portfolio-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .portfolio-hero {
+                padding: 120px 0 40px;
+            }
+
+            .portfolio {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-image {
+                height: 150px;
+            }
+
+            .image-placeholder {
+                font-size: 3rem;
+            }
+
+            .portfolio-content {
+                padding: 1rem;
+            }
+
+            .portfolio-content h3 {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -264,11 +329,11 @@
                     <button class="lang-btn" data-lang="fr">FR</button>
                 </div>
             </div>
-            <div class="nav-toggle">
+            <button class="nav-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -317,198 +382,4 @@
                         <div class="portfolio-image">
                             <div class="image-placeholder">📊</div>
                         </div>
-                        <div class="portfolio-content">
-                            <h3 data-i18n="portfolio.project3.title">Analytics Dashboard</h3>
-                            <p data-i18n="portfolio.project3.description">Management panel with real-time charts and statistics</p>
-                            <div class="portfolio-tech">
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">D3.js</span>
-                                <span class="tech-tag">WebSocket</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p data-i18n="footer.copyright">© 2024 DannyWeb. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Translation dictionary for portfolio page
-        const translations = {
-            en: {
-                // Navigation
-                'nav.home': 'Home',
-                'nav.portfolio': 'Portfolio',
-                'nav.services': 'Services',
-                'nav.contacts': 'Contacts',
-                
-                // Portfolio section
-                'portfolio.title': 'My Works',
-                'portfolio.subtitle': 'Completed projects and cases',
-                'portfolio.project1.title': 'Corporate Website',
-                'portfolio.project1.description': 'Modern landing page for IT company with animations and responsive design',
-                'portfolio.project2.title': 'E-commerce Store',
-                'portfolio.project2.description': 'Full-featured e-commerce project with shopping cart and payment system',
-                'portfolio.project3.title': 'Analytics Dashboard',
-                'portfolio.project3.description': 'Management panel with real-time charts and statistics',
-                
-                // Footer
-                'footer.copyright': '© 2024 DannyWeb. All rights reserved.'
-            },
-            ru: {
-                // Navigation
-                'nav.home': 'Главная',
-                'nav.portfolio': 'Портфолио',
-                'nav.services': 'Услуги',
-                'nav.contacts': 'Контакты',
-                
-                // Portfolio section
-                'portfolio.title': 'Мои работы',
-                'portfolio.subtitle': 'Реализованные проекты и кейсы',
-                'portfolio.project1.title': 'Корпоративный сайт',
-                'portfolio.project1.description': 'Современный лендинг для IT-компании с анимациями и адаптивным дизайном',
-                'portfolio.project2.title': 'Интернет-магазин',
-                'portfolio.project2.description': 'Полнофункциональный e-commerce проект с корзиной и системой оплаты',
-                'portfolio.project3.title': 'Дашборд аналитики',
-                'portfolio.project3.description': 'Панель управления с графиками и статистикой в реальном времени',
-                
-                // Footer
-                'footer.copyright': '© 2024 DannyWeb. Все права защищены.'
-            },
-            fr: {
-                // Navigation
-                'nav.home': 'Accueil',
-                'nav.portfolio': 'Portfolio',
-                'nav.services': 'Services',
-                'nav.contacts': 'Contacts',
-                
-                // Portfolio section
-                'portfolio.title': 'Mes travaux',
-                'portfolio.subtitle': 'Projets réalisés et études de cas',
-                'portfolio.project1.title': 'Site Web Corporatif',
-                'portfolio.project1.description': 'Page de destination moderne pour entreprise IT avec animations et design responsive',
-                'portfolio.project2.title': 'Boutique E-commerce',
-                'portfolio.project2.description': 'Projet e-commerce complet avec panier et système de paiement',
-                'portfolio.project3.title': 'Tableau de Bord Analytique',
-                'portfolio.project3.description': 'Panneau de gestion avec graphiques et statistiques en temps réel',
-                
-                // Footer
-                'footer.copyright': '© 2024 DannyWeb. Tous droits réservés.'
-            }
-        };
-
-        // Language Manager
-        class LanguageManager {
-            constructor() {
-                this.currentLang = this.detectLanguage();
-                this.init();
-            }
-
-            detectLanguage() {
-                const savedLang = localStorage.getItem('preferred-language');
-                if (savedLang) return savedLang;
-                
-                const browserLang = navigator.language || navigator.userLanguage;
-                const shortLang = browserLang.split('-')[0];
-                
-                if (shortLang === 'ru' || shortLang === 'fr') {
-                    return shortLang;
-                }
-                return 'en';
-            }
-
-            init() {
-                this.loadLanguage(this.currentLang);
-                this.setupEventListeners();
-                this.setupMobileMenu();
-                this.setupAnimations();
-            }
-
-            loadLanguage(lang) {
-                this.currentLang = lang;
-                document.documentElement.lang = lang;
-                
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const key = element.getAttribute('data-i18n');
-                    if (translations[lang] && translations[lang][key]) {
-                        element.textContent = translations[lang][key];
-                    }
-                });
-
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
-
-                localStorage.setItem('preferred-language', lang);
-            }
-
-            setupEventListeners() {
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.loadLanguage(btn.dataset.lang);
-                    });
-                });
-
-                window.addEventListener('scroll', () => {
-                    const navbar = document.querySelector('.navbar');
-                    if (window.scrollY > 100) {
-                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-                    } else {
-                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                        navbar.style.boxShadow = 'none';
-                    }
-                });
-            }
-
-            setupMobileMenu() {
-                const navToggle = document.querySelector('.nav-toggle');
-                const navMenu = document.querySelector('.nav-menu');
-                
-                if (navToggle && navMenu) {
-                    navToggle.addEventListener('click', () => {
-                        const isVisible = navMenu.style.display === 'flex';
-                        navMenu.style.display = isVisible ? 'none' : 'flex';
-                    });
-                }
-
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', () => {
-                        if (window.innerWidth <= 768) {
-                            navMenu.style.display = 'none';
-                        }
-                    });
-                });
-            }
-
-            setupAnimations() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.portfolio-item').forEach((el, index) => {
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateY(30px)';
-                    el.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
-                    observer.observe(el);
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            new LanguageManager();
-        });
-    </script>
-</body>
-</html>
+                        <div class
