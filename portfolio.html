@@ -382,4 +382,283 @@
                         <div class="portfolio-image">
                             <div class="image-placeholder">📊</div>
                         </div>
-                        <div class
+                        <div class="portfolio-content">
+                            <h3 data-i18n="portfolio.project3.title">Analytics Dashboard</h3>
+                            <p data-i18n="portfolio.project3.description">Management panel with real-time charts and statistics</p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">D3.js</span>
+                                <span class="tech-tag">WebSocket</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p data-i18n="footer.copyright">© 2024 DannyWeb. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Translation dictionary for portfolio page
+        const translations = {
+            en: {
+                // Navigation
+                'nav.home': 'Home',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Portfolio section
+                'portfolio.title': 'My Works',
+                'portfolio.subtitle': 'Completed projects and cases',
+                'portfolio.project1.title': 'Corporate Website',
+                'portfolio.project1.description': 'Modern landing page for IT company with animations and responsive design',
+                'portfolio.project2.title': 'E-commerce Store',
+                'portfolio.project2.description': 'Full-featured e-commerce project with shopping cart and payment system',
+                'portfolio.project3.title': 'Analytics Dashboard',
+                'portfolio.project3.description': 'Management panel with real-time charts and statistics',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. All rights reserved.'
+            },
+            ru: {
+                // Navigation
+                'nav.home': 'Главная',
+                'nav.portfolio': 'Портфолио',
+                'nav.services': 'Услуги',
+                'nav.contacts': 'Контакты',
+                
+                // Portfolio section
+                'portfolio.title': 'Мои работы',
+                'portfolio.subtitle': 'Реализованные проекты и кейсы',
+                'portfolio.project1.title': 'Корпоративный сайт',
+                'portfolio.project1.description': 'Современный лендинг для IT-компании с анимациями и адаптивным дизайном',
+                'portfolio.project2.title': 'Интернет-магазин',
+                'portfolio.project2.description': 'Полнофункциональный e-commerce проект с корзиной и системой оплаты',
+                'portfolio.project3.title': 'Дашборд аналитики',
+                'portfolio.project3.description': 'Панель управления с графиками и статистикой в реальном времени',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Все права защищены.'
+            },
+            fr: {
+                // Navigation
+                'nav.home': 'Accueil',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Portfolio section
+                'portfolio.title': 'Mes travaux',
+                'portfolio.subtitle': 'Projets réalisés et études de cas',
+                'portfolio.project1.title': 'Site Web Corporatif',
+                'portfolio.project1.description': 'Page de destination moderne pour entreprise IT avec animations et design responsive',
+                'portfolio.project2.title': 'Boutique E-commerce',
+                'portfolio.project2.description': 'Projet e-commerce complet avec panier et système de paiement',
+                'portfolio.project3.title': 'Tableau de Bord Analytique',
+                'portfolio.project3.description': 'Panneau de gestion avec graphiques et statistiques en temps réel',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Tous droits réservés.'
+            }
+        };
+
+        // Advanced Language Detection
+        class LanguageManager {
+            constructor() {
+                this.currentLang = this.detectLanguage();
+                this.init();
+            }
+
+            detectLanguage() {
+                console.log('=== LANGUAGE DETECTION START ===');
+                
+                // Method 1: Check all possible browser language properties
+                const languageProperties = [
+                    navigator.language,
+                    navigator.userLanguage,
+                    navigator.browserLanguage,
+                    navigator.systemLanguage,
+                    navigator.languages ? navigator.languages[0] : null
+                ];
+
+                console.log('All language properties:', languageProperties);
+
+                let detectedLang = 'en'; // Default fallback
+
+                // Check each property for Russian or French
+                for (let lang of languageProperties) {
+                    if (!lang) continue;
+                    
+                    const primaryLang = lang.split('-')[0].toLowerCase();
+                    console.log('Checking language:', lang, '->', primaryLang);
+                    
+                    if (primaryLang === 'ru') {
+                        console.log('✓ Russian detected');
+                        detectedLang = 'ru';
+                        break;
+                    } else if (primaryLang === 'fr') {
+                        console.log('✓ French detected');
+                        detectedLang = 'fr';
+                        break;
+                    }
+                }
+
+                console.log('Final detected language:', detectedLang);
+                console.log('=== LANGUAGE DETECTION END ===');
+                
+                return detectedLang;
+            }
+
+            init() {
+                console.log('Initializing with language:', this.currentLang);
+                
+                // Apply language immediately
+                this.applyLanguage(this.currentLang);
+                
+                this.setupEventListeners();
+                this.setupMobileMenu();
+                this.setupAnimations();
+            }
+
+            applyLanguage(lang) {
+                this.currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                console.log('Applying language:', lang);
+                
+                // Update all translatable elements
+                let updatedCount = 0;
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                        updatedCount++;
+                    } else {
+                        console.warn('Missing translation:', key, 'for language:', lang);
+                    }
+                });
+
+                console.log(`Updated ${updatedCount} elements with ${lang} translations`);
+
+                // Update active language button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    const isActive = btn.dataset.lang === lang;
+                    btn.classList.toggle('active', isActive);
+                });
+
+                // Save to localStorage for future visits
+                localStorage.setItem('preferred-language', lang);
+            }
+
+            setupEventListeners() {
+                // Language switcher buttons
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const selectedLang = btn.dataset.lang;
+                        console.log('User manually selected language:', selectedLang);
+                        this.applyLanguage(selectedLang);
+                        this.closeMobileMenu();
+                    });
+                });
+
+                // Navbar scroll effect
+                window.addEventListener('scroll', () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 100) {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                        navbar.style.boxShadow = 'none';
+                    }
+                });
+            }
+
+            setupMobileMenu() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle && navMenu) {
+                    navToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        navMenu.classList.toggle('active');
+                        
+                        // Animate hamburger icon
+                        const spans = navToggle.querySelectorAll('span');
+                        if (navMenu.classList.contains('active')) {
+                            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                            spans[1].style.opacity = '0';
+                            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                        } else {
+                            spans[0].style.transform = 'none';
+                            spans[1].style.opacity = '1';
+                            spans[2].style.transform = 'none';
+                        }
+                    });
+
+                    // Close menu when clicking on links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            this.closeMobileMenu();
+                        });
+                    });
+                }
+
+                // Close menu on window resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        this.closeMobileMenu();
+                    }
+                });
+            }
+
+            closeMobileMenu() {
+                const navMenu = document.querySelector('.nav-menu');
+                const navToggle = document.querySelector('.nav-toggle');
+                const spans = navToggle?.querySelectorAll('span');
+                
+                if (navMenu) {
+                    navMenu.classList.remove('active');
+                }
+                
+                if (spans) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            }
+
+            setupAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                // Animate portfolio items
+                document.querySelectorAll('.portfolio-item').forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    el.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Initialize immediately
+        document.addEventListener('DOMContentLoaded', () => {
+            window.languageManager = new LanguageManager();
+        });
+    </script>
+</body>
+</html>
