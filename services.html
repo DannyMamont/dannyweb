@@ -31,12 +31,14 @@
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--background);
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         .navbar {
@@ -122,6 +124,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -130,12 +135,45 @@
             background: var(--text-primary);
             margin: 3px 0;
             transition: 0.3s;
+            display: block;
+        }
+
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1.5rem;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
+                justify-content: center;
+            }
         }
 
         .services-hero {
             padding: 140px 0 60px;
             text-align: center;
             background: var(--secondary-color);
+            width: 100%;
         }
 
         .section-title {
@@ -151,12 +189,14 @@
 
         .services {
             padding: 80px 0;
+            width: 100%;
         }
 
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            width: 100%;
         }
 
         .service-card {
@@ -169,6 +209,7 @@
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .service-card::before {
@@ -233,6 +274,7 @@
             background: var(--gradient);
             color: white;
             text-align: center;
+            width: 100%;
         }
 
         .cta-section h2 {
@@ -274,29 +316,67 @@
             color: white;
             text-align: center;
             padding: 2rem 0;
+            width: 100%;
         }
 
+        /* Mobile responsive fixes */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                padding: 1rem;
-                box-shadow: var(--shadow);
+            .container {
+                padding: 0 15px;
             }
-            .nav-toggle {
-                display: flex;
-            }
-            .language-switcher {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
+
             .services-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .services-hero {
+                padding: 120px 0 40px;
+            }
+
+            .services {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .cta-section {
+                padding: 60px 0;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .cta-section p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .service-icon {
+                font-size: 2.5rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.25rem;
+            }
+
+            .service-price {
+                font-size: 1.25rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.75rem;
             }
         }
     </style>
@@ -318,11 +398,11 @@
                     <button class="lang-btn" data-lang="fr">FR</button>
                 </div>
             </div>
-            <div class="nav-toggle">
+            <button class="nav-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -501,7 +581,7 @@
             }
         };
 
-        // Language Manager
+        // Advanced Language Detection
         class LanguageManager {
             constructor() {
                 this.currentLang = this.detectLanguage();
@@ -509,50 +589,99 @@
             }
 
             detectLanguage() {
-                const savedLang = localStorage.getItem('preferred-language');
-                if (savedLang) return savedLang;
+                console.log('=== LANGUAGE DETECTION START ===');
                 
-                const browserLang = navigator.language || navigator.userLanguage;
-                const shortLang = browserLang.split('-')[0];
-                
-                if (shortLang === 'ru' || shortLang === 'fr') {
-                    return shortLang;
+                // Method 1: Check all possible browser language properties
+                const languageProperties = [
+                    navigator.language,
+                    navigator.userLanguage,
+                    navigator.browserLanguage,
+                    navigator.systemLanguage,
+                    navigator.languages ? navigator.languages[0] : null
+                ];
+
+                console.log('All language properties:', languageProperties);
+
+                let detectedLang = 'en'; // Default fallback
+
+                // Check each property for Russian or French
+                for (let lang of languageProperties) {
+                    if (!lang) continue;
+                    
+                    const primaryLang = lang.split('-')[0].toLowerCase();
+                    console.log('Checking language:', lang, '->', primaryLang);
+                    
+                    if (primaryLang === 'ru') {
+                        console.log('✓ Russian detected');
+                        detectedLang = 'ru';
+                        break;
+                    } else if (primaryLang === 'fr') {
+                        console.log('✓ French detected');
+                        detectedLang = 'fr';
+                        break;
+                    }
                 }
-                return 'en';
+
+                console.log('Final detected language:', detectedLang);
+                console.log('=== LANGUAGE DETECTION END ===');
+                
+                return detectedLang;
             }
 
             init() {
-                this.loadLanguage(this.currentLang);
+                console.log('Initializing with language:', this.currentLang);
+                
+                // Apply language immediately
+                this.applyLanguage(this.currentLang);
+                
                 this.setupEventListeners();
                 this.setupMobileMenu();
                 this.setupAnimations();
             }
 
-            loadLanguage(lang) {
+            applyLanguage(lang) {
                 this.currentLang = lang;
                 document.documentElement.lang = lang;
                 
+                console.log('Applying language:', lang);
+                
+                // Update all translatable elements
+                let updatedCount = 0;
                 document.querySelectorAll('[data-i18n]').forEach(element => {
                     const key = element.getAttribute('data-i18n');
                     if (translations[lang] && translations[lang][key]) {
                         element.textContent = translations[lang][key];
+                        updatedCount++;
+                    } else {
+                        console.warn('Missing translation:', key, 'for language:', lang);
                     }
                 });
 
+                console.log(`Updated ${updatedCount} elements with ${lang} translations`);
+
+                // Update active language button
                 document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                    const isActive = btn.dataset.lang === lang;
+                    btn.classList.toggle('active', isActive);
                 });
 
+                // Save to localStorage for future visits
                 localStorage.setItem('preferred-language', lang);
             }
 
             setupEventListeners() {
+                // Language switcher buttons
                 document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.loadLanguage(btn.dataset.lang);
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const selectedLang = btn.dataset.lang;
+                        console.log('User manually selected language:', selectedLang);
+                        this.applyLanguage(selectedLang);
+                        this.closeMobileMenu();
                     });
                 });
 
+                // Navbar scroll effect
                 window.addEventListener('scroll', () => {
                     const navbar = document.querySelector('.navbar');
                     if (window.scrollY > 100) {
@@ -570,19 +699,53 @@
                 const navMenu = document.querySelector('.nav-menu');
                 
                 if (navToggle && navMenu) {
-                    navToggle.addEventListener('click', () => {
-                        const isVisible = navMenu.style.display === 'flex';
-                        navMenu.style.display = isVisible ? 'none' : 'flex';
+                    navToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        navMenu.classList.toggle('active');
+                        
+                        // Animate hamburger icon
+                        const spans = navToggle.querySelectorAll('span');
+                        if (navMenu.classList.contains('active')) {
+                            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                            spans[1].style.opacity = '0';
+                            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                        } else {
+                            spans[0].style.transform = 'none';
+                            spans[1].style.opacity = '1';
+                            spans[2].style.transform = 'none';
+                        }
+                    });
+
+                    // Close menu when clicking on links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            this.closeMobileMenu();
+                        });
                     });
                 }
 
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', () => {
-                        if (window.innerWidth <= 768) {
-                            navMenu.style.display = 'none';
-                        }
-                    });
+                // Close menu on window resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        this.closeMobileMenu();
+                    }
                 });
+            }
+
+            closeMobileMenu() {
+                const navMenu = document.querySelector('.nav-menu');
+                const navToggle = document.querySelector('.nav-toggle');
+                const spans = navToggle?.querySelectorAll('span');
+                
+                if (navMenu) {
+                    navMenu.classList.remove('active');
+                }
+                
+                if (spans) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
             }
 
             setupAnimations() {
@@ -595,6 +758,7 @@
                     });
                 }, { threshold: 0.1 });
 
+                // Animate service cards
                 document.querySelectorAll('.service-card').forEach((el, index) => {
                     el.style.opacity = '0';
                     el.style.transform = 'translateY(30px)';
@@ -604,8 +768,9 @@
             }
         }
 
+        // Initialize immediately
         document.addEventListener('DOMContentLoaded', () => {
-            new LanguageManager();
+            window.languageManager = new LanguageManager();
         });
     </script>
 </body>
