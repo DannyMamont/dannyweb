@@ -1,261 +1,855 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
+    <!-- ✅ НОВОЕ: SEO Оптимизация -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danny Mamont | Frontend Developer & Web Architect</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <title>Danny Montana — Web Developer & UI/UX Designer</title>
+    <meta name="description" content="Professional web development, API integration, UI/UX design, and graphic design. Creating modern, high-performance websites for businesses.">
+    <meta name="keywords" content="web development, UI design, API integration, graphic design, Danny Montana">
+    <meta name="author" content="Danny Montana">
+    <link rel="canonical" href="https://yourwebsite.com">
+
+    <!-- Schema.org Microdata -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Danny Montana",
+      "jobTitle": "Web Developer & Designer",
+      "url": "https://yourwebsite.com",
+      "sameAs": [
+        "https://linkedin.com/in/dannymontana",
+        "https://github.com/DannyMamont"
+      ],
+      "description": "Professional web development, API integration, UI/UX design, and graphic design.",
+      "image": "https://yourwebsite.com/img/profile.jpg"
+    }
+    </script>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Yandex.Metrica -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){
+       m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(YOUR_YANDEX_ID, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/YOUR_YANDEX_ID" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+    <!-- Hotjar Tracking Code -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid: YOUR_HOTJAR_ID, hjsv: 6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
+    <!-- Остальные теги без изменений -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0d0d0d;
-            --accent-color: #00ff95; /* Неоновый зеленый для акцентов */
-            --text-main: #e0e0e0;
-            --text-dim: #888;
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-sans: 'Inter', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --background: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-sans);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background);
             overflow-x: hidden;
         }
 
-        /* Фоновый эффект сетки */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: radial-gradient(var(--accent-color) 0.5px, transparent 0.5px);
-            background-size: 40px 40px;
-            opacity: 0.05;
-            z-index: -1;
-        }
-
-        container {
-            max-width: 1100px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
-        header {
-            padding: 40px 0;
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 70px;
         }
 
-        .logo {
-            font-family: var(--font-mono);
+        .nav-logo a {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent-color);
+            color: var(--primary-color);
             text-decoration: none;
-            font-size: 1.2rem;
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            min-height: 80vh;
+        .nav-menu {
             display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 2rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .nav-toggle {
+            display: none;
             flex-direction: column;
-            justify-content: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
-        .hero span {
-            font-family: var(--font-mono);
-            color: var(--accent-color);
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
             display: block;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            line-height: 1.1;
-            margin-bottom: 25px;
-            font-weight: 800;
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1.5rem;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
+                justify-content: center;
+            }
         }
 
-        .hero p {
-            max-width: 600px;
-            font-size: 1.2rem;
-            color: var(--text-dim);
-            margin-bottom: 40px;
-        }
-
-        .cta-group {
+        .hero {
+            padding: 120px 0 80px;
+            min-height: 100vh;
             display: flex;
-            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 15px 35px;
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            border-radius: 4px;
-            transition: 0.3s;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
 
         .btn-primary {
-            background-color: var(--accent-color);
-            color: black;
+            background: var(--primary-color);
+            color: white;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 255, 149, 0.2);
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .btn-secondary {
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
         }
 
         .btn-secondary:hover {
-            background: rgba(0, 255, 149, 0.1);
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        /* Sections */
-        section { padding: 100px 0; }
-        
-        h2 {
+        .hero-visual {
+            flex: 1;
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+            width: 200px;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-1 {
+            top: 20%;
+            left: 10%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-2 {
+            top: 50%;
+            right: 20%;
+            animation: float 3s ease-in-out infinite 1s;
+        }
+
+        .card-3 {
+            bottom: 10%;
+            left: 30%;
+            animation: float 3s ease-in-out infinite 2s;
+        }
+
+        .card-icon {
             font-size: 2rem;
-            margin-bottom: 50px;
-            font-family: var(--font-mono);
-            display: flex;
-            align-items: center;
+            margin-bottom: 0.5rem;
         }
 
-        h2::after {
-            content: "";
-            height: 1px;
-            flex-grow: 1;
-            background: var(--text-dim);
-            margin-left: 20px;
-            opacity: 0.3;
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
         }
 
-        .grid {
+        .skills {
+            padding: 80px 0;
+            background: var(--secondary-color);
+            width: 100%;
+        }
+
+        .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 2rem;
+            width: 100%;
         }
 
-        .card {
-            background: #161616;
-            padding: 30px;
-            border-radius: 8px;
-            border: 1px solid #222;
-            transition: 0.3s;
-        }
-
-        .card:hover { border-color: var(--accent-color); }
-
-        .card h3 {
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            font-family: var(--font-mono);
-        }
-
-        footer {
-            padding: 50px 0;
+        .skill-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
             text-align: center;
-            border-top: 1px solid #222;
-            color: var(--text-dim);
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            width: 100%;
         }
 
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+        .skill-item:hover {
+            transform: translateY(-5px);
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
-    </style>
-</head>
-<body>
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            width: 100%;
+        }
 
-    <div class="container">
-        <header>
-            <a href="#" class="logo">DM_DEV.log()</a>
-            <div style="font-family: var(--font-mono); font-size: 0.8rem;">Location: Vietnam, GMT+7</div>
-        </header>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-        <main>
-            <section class="hero">
-                <span>// Привет, мир. Меня зовут Дэнни</span>
-                <h1>Frontend Developer & Web Architect</h1>
-                <p>Проектирую и создаю современные веб-интерфейсы. Специализируюсь на быстрой верстке, React-приложениях и превращении бизнес-задач в элегантный код.</p>
-                <div class="cta-group">
-                    <a href="mailto:твой-email@mail.com" class="btn btn-primary">Обсудить проект</a>
-                    <a href="https://github.com/dannymamont" target="_blank" class="btn btn-secondary">Смотреть GitHub</a>
-                </div>
-            </section>
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
 
-            <section id="services" class="reveal">
-                <h2>01. Что я делаю</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3>Web Development</h3>
-                        <p>Создание адаптивных лендингов и многостраничных сайтов с упором на скорость загрузки.</p>
-                    </div>
-                    <div class="card">
-                        <h3>UI/UX Design</h3>
-                        <p>Разработка удобных интерфейсов, где каждый клик пользователя ведет к результату.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Performance</h3>
-                        <p>Оптимизация существующего кода, SEO-подготовка и внедрение современных скриптов.</p>
-                    </div>
-                </div>
-            </section>
+            .hero {
+                flex-direction: column;
+                padding: 100px 0 40px;
+                text-align: center;
+            }
 
-            <section id="contact" class="reveal" style="text-align: center;">
-                <h2>02. Контакты</h2>
-                <p style="margin-bottom: 30px;">Сейчас я открыт для фриланс-заказов и интересных предложений.</p>
-                <a href="https://t.me/твой_ник" class="btn btn-primary">Написать в Telegram</a>
-            </section>
-        </main>
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
 
-        <footer>
-            &copy; 2026 DANNY MAMONT. Построено на GitHub Pages.
-        </footer>
-    </div>
+            .hero-title {
+                font-size: 2.5rem;
+            }
 
-    <script>
-        // Скрипт для анимации появления элементов при скролле
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                height: 300px;
+            }
+
+            .floating-card {
+                position: relative;
+                margin: 1rem 0;
+                width: 100%;
+                max-width: 250px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .card-1, .card-2, .card-3 {
+                position: relative;
+                animation: none;
+                top: auto;
+                left: auto;
+                right: auto;
+                bottom: auto;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        window.addEventListener("scroll", reveal);
-        // Запускаем один раз при загрузке
-        reveal();
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 10px 24px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">DannyWeb</a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active" data-i18n="nav.home">Home</a>
+                <a href="portfolio.html" class="nav-link" data-i18n="nav.portfolio">Portfolio</a>
+                <a href="services.html" class="nav-link" data-i18n="nav.services">Services</a>
+                <a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Contacts</a>
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span data-i18n="hero.title1">Creating modern</span>
+                        <span class="gradient-text" data-i18n="hero.websites">websites</span>
+                        <span data-i18n="hero.title2">that work</span>
+                    </h1>
+                    <p class="hero-description" data-i18n="hero.description">
+                        Web developer specializing in creating intuitive and high-performance digital solutions for business
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="portfolio.html" class="btn btn-primary" data-i18n="hero.viewWorks">View Works</a>
+                        <a href="contacts.html" class="btn btn-secondary" data-i18n="hero.discussProject">Discuss Project</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <div class="card-icon">💻</div>
+                        <h4 data-i18n="hero.frontend">Frontend</h4>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div class="card-icon">⚙️</div>
+                        <h4 data-i18n="hero.backend">Backend</h4>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div class="card-icon">📱</div>
+                        <h4 data-i18n="hero.mobile">Mobile</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills">
+            <div class="container">
+                <h2 class="section-title" data-i18n="skills.title">Technologies</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon">🎨</div>
+                        <h3 data-i18n="skills.design.title">UI/UX Design</h3>
+                        <p data-i18n="skills.design.description">Creating intuitive interfaces with thoughtful user experience</p>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">⚡</div>
+                        <h3 data-i18n="skills.frontend.title">Frontend</h3>
+                        <p data-i18n="skills.frontend.description">React, Vue, modern JavaScript and responsive layout</p>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">🔧</div>
+                        <h3 data-i18n="skills.backend.title">Backend</h3>
+                        <p data-i18n="skills.backend.description">Node.js, Python, databases and API development</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p data-i18n="footer.copyright">© 2024 DannyWeb. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Translation dictionary for index page
+        const translations = {
+            en: {
+                // Navigation
+                'nav.home': 'Home',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Hero section
+                'hero.title1': 'Creating modern',
+                'hero.websites': 'websites',
+                'hero.title2': 'that work',
+                'hero.description': 'Web developer specializing in creating intuitive and high-performance digital solutions for business',
+                'hero.viewWorks': 'View Works',
+                'hero.discussProject': 'Discuss Project',
+                'hero.frontend': 'Frontend',
+                'hero.backend': 'Backend',
+                'hero.mobile': 'Mobile',
+                
+                // Skills section
+                'skills.title': 'Technologies',
+                'skills.design.title': 'UI/UX Design',
+                'skills.design.description': 'Creating intuitive interfaces with thoughtful user experience',
+                'skills.frontend.title': 'Frontend',
+                'skills.frontend.description': 'React, Vue, modern JavaScript and responsive layout',
+                'skills.backend.title': 'Backend',
+                'skills.backend.description': 'Node.js, Python, databases and API development',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. All rights reserved.'
+            },
+            ru: {
+                // Navigation
+                'nav.home': 'Главная',
+                'nav.portfolio': 'Портфолио',
+                'nav.services': 'Услуги',
+                'nav.contacts': 'Контакты',
+                
+                // Hero section
+                'hero.title1': 'Создаю современные',
+                'hero.websites': 'веб-сайты',
+                'hero.title2': 'которые работают',
+                'hero.description': 'Веб-разработчик, специализирующийся на создании интуитивных и высокопроизводительных digital-решений для бизнеса',
+                'hero.viewWorks': 'Смотреть работы',
+                'hero.discussProject': 'Обсудить проект',
+                'hero.frontend': 'Frontend',
+                'hero.backend': 'Backend',
+                'hero.mobile': 'Mobile',
+                
+                // Skills section
+                'skills.title': 'Технологии',
+                'skills.design.title': 'UI/UX Дизайн',
+                'skills.design.description': 'Создаю интуитивные интерфейсы с продуманным пользовательским опытом',
+                'skills.frontend.title': 'Frontend',
+                'skills.frontend.description': 'React, Vue, современный JavaScript и адаптивная верстка',
+                'skills.backend.title': 'Backend',
+                'skills.backend.description': 'Node.js, Python, базы данных и API-разработка',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Все права защищены.'
+            },
+            fr: {
+                // Navigation
+                'nav.home': 'Accueil',
+                'nav.portfolio': 'Portfolio',
+                'nav.services': 'Services',
+                'nav.contacts': 'Contacts',
+                
+                // Hero section
+                'hero.title1': 'Je crée des',
+                'hero.websites': 'sites web',
+                'hero.title2': 'modernes qui fonctionnent',
+                'hero.description': 'Développeur web spécialisé dans la création de solutions digitales intuitives et performantes pour les entreprises',
+                'hero.viewWorks': 'Voir les travaux',
+                'hero.discussProject': 'Discuter du projet',
+                'hero.frontend': 'Frontend',
+                'hero.backend': 'Backend',
+                'hero.mobile': 'Mobile',
+                
+                // Skills section
+                'skills.title': 'Technologies',
+                'skills.design.title': 'Design UI/UX',
+                'skills.design.description': 'Création d\'interfaces intuitives avec une expérience utilisateur réfléchie',
+                'skills.frontend.title': 'Frontend',
+                'skills.frontend.description': 'React, Vue, JavaScript moderne et mise en page responsive',
+                'skills.backend.title': 'Backend',
+                'skills.backend.description': 'Node.js, Python, bases de données et développement API',
+                
+                // Footer
+                'footer.copyright': '© 2024 DannyWeb. Tous droits réservés.'
+            }
+        };
+
+        // Advanced Language Detection
+        class LanguageManager {
+            constructor() {
+                this.currentLang = this.detectLanguage();
+                this.init();
+            }
+
+            detectLanguage() {
+                console.log('=== LANGUAGE DETECTION START ===');
+                
+                // Method 1: Check all possible browser language properties
+                const languageProperties = [
+                    navigator.language,
+                    navigator.userLanguage,
+                    navigator.browserLanguage,
+                    navigator.systemLanguage,
+                    navigator.languages ? navigator.languages[0] : null
+                ];
+
+                console.log('All language properties:', languageProperties);
+
+                let detectedLang = 'en'; // Default fallback
+
+                // Check each property for Russian or French
+                for (let lang of languageProperties) {
+                    if (!lang) continue;
+                    
+                    const primaryLang = lang.split('-')[0].toLowerCase();
+                    console.log('Checking language:', lang, '->', primaryLang);
+                    
+                    if (primaryLang === 'ru') {
+                        console.log('✓ Russian detected');
+                        detectedLang = 'ru';
+                        break;
+                    } else if (primaryLang === 'fr') {
+                        console.log('✓ French detected');
+                        detectedLang = 'fr';
+                        break;
+                    }
+                }
+
+                console.log('Final detected language:', detectedLang);
+                console.log('=== LANGUAGE DETECTION END ===');
+                
+                return detectedLang;
+            }
+
+            init() {
+                console.log('Initializing with language:', this.currentLang);
+                
+                // Apply language immediately
+                this.applyLanguage(this.currentLang);
+                
+                this.setupEventListeners();
+                this.setupMobileMenu();
+                this.setupAnimations();
+            }
+
+            applyLanguage(lang) {
+                this.currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                console.log('Applying language:', lang);
+                
+                // Update all translatable elements
+                let updatedCount = 0;
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                        updatedCount++;
+                    } else {
+                        console.warn('Missing translation:', key, 'for language:', lang);
+                    }
+                });
+
+                console.log(`Updated ${updatedCount} elements with ${lang} translations`);
+
+                // Update active language button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    const isActive = btn.dataset.lang === lang;
+                    btn.classList.toggle('active', isActive);
+                });
+
+                // Save to localStorage for future visits
+                localStorage.setItem('preferred-language', lang);
+            }
+
+            setupEventListeners() {
+                // Language switcher buttons
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const selectedLang = btn.dataset.lang;
+                        console.log('User manually selected language:', selectedLang);
+                        this.applyLanguage(selectedLang);
+                        this.closeMobileMenu();
+                    });
+                });
+
+                // Navbar scroll effect
+                window.addEventListener('scroll', () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 100) {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                        navbar.style.boxShadow = 'none';
+                    }
+                });
+            }
+
+            setupMobileMenu() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle && navMenu) {
+                    navToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        navMenu.classList.toggle('active');
+                        
+                        // Animate hamburger icon
+                        const spans = navToggle.querySelectorAll('span');
+                        if (navMenu.classList.contains('active')) {
+                            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                            spans[1].style.opacity = '0';
+                            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                        } else {
+                            spans[0].style.transform = 'none';
+                            spans[1].style.opacity = '1';
+                            spans[2].style.transform = 'none';
+                        }
+                    });
+
+                    // Close menu when clicking on links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            this.closeMobileMenu();
+                        });
+                    });
+                }
+
+                // Close menu on window resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        this.closeMobileMenu();
+                    }
+                });
+            }
+
+            closeMobileMenu() {
+                const navMenu = document.querySelector('.nav-menu');
+                const navToggle = document.querySelector('.nav-toggle');
+                const spans = navToggle?.querySelectorAll('span');
+                
+                if (navMenu) {
+                    navMenu.classList.remove('active');
+                }
+                
+                if (spans) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            }
+
+            setupAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                // Animate skill items
+                document.querySelectorAll('.skill-item').forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    el.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Initialize immediately
+        document.addEventListener('DOMContentLoaded', () => {
+            window.languageManager = new LanguageManager();
+        });
     </script>
 </body>
 </html>
